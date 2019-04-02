@@ -2,9 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -29,20 +28,16 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton mnemonicParsing="false" text="Corsi" wrapText="true">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
+                  <ChoiceBox fx:id="btnCorsi" prefWidth="150.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
-                  </MenuButton>
+                  </ChoiceBox>
                </children>
             </HBox>
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" text="Cerca iscritti corso">
+                  <Button fx:id="btnCercaIscrittiCorso" mnemonicParsing="false" onAction="#doCercaIscrittiCorso" text="Cerca iscritti corso">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
@@ -56,12 +51,12 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField promptText="Inserire matricola..">
+                  <TextField fx:id="btnMatricola" promptText="Inserire matricola..">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" styleClass="background" stylesheets="@application.css" text="√" textFill="WHITE" wrapText="true">
+                  <Button fx:id="btnCompleta" mnemonicParsing="false" onAction="#doNome" styleClass="background" stylesheets="@application.css" text="√" textFill="WHITE" wrapText="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin>
@@ -69,12 +64,12 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <TextField editable="false" promptText="Nome">
+                  <TextField fx:id="btnNome" editable="false" promptText="Nome">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField editable="false" promptText="Cognome">
+                  <TextField fx:id="btnCognome" editable="false" promptText="Cognome">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -85,7 +80,7 @@
                <children>
                   <HBox prefHeight="25.0" prefWidth="270.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Cerca corsi">
+                        <Button fx:id="btnCercaCorsi" mnemonicParsing="false" onAction="#doCercaCorsi" text="Cerca corsi">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
@@ -94,7 +89,7 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="45.0" prefWidth="290.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Iscrivi">
+                        <Button fx:id="btnIscrivi" mnemonicParsing="false" onAction="#doIscrivi" text="Iscrivi">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
@@ -103,7 +98,7 @@
                   </HBox>
                </children>
             </HBox>
-            <TextArea editable="false" prefHeight="200.0" prefWidth="200.0">
+            <TextArea fx:id="btnResult" editable="false" prefHeight="200.0" prefWidth="200.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -115,7 +110,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button mnemonicParsing="false" text="Reset" BorderPane.alignment="TOP_RIGHT">
+      <Button fx:id="btnReset" mnemonicParsing="false" onAction="#doReset" text="Reset" BorderPane.alignment="TOP_RIGHT">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
