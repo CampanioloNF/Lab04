@@ -28,16 +28,21 @@ public class Model {
 		return result;
 	}
 
-	public String cercaStudente(int matricola) {
+	public String [] cercaStudente(int matricola) {
 	
 		StudenteDAO dao = new StudenteDAO();
 		
+		String studente[] = {null,null};
+		
 		for(Studente s : dao.getStudenti()) {
-			if(s.getMatricola()==matricola)
-				 return s.getNome()+" "+s.getCognome();
+			if(s.getMatricola()==matricola) {
+				studente[0]=s.getNome();
+				studente[1]=s.getCognome();
+			}
+				
 		}
 	
-		return null;
+		return studente;
 	}
 
 	

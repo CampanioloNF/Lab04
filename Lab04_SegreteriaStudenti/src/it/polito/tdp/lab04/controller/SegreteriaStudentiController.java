@@ -94,17 +94,17 @@ public class SegreteriaStudentiController {
     	
     	int matricola = Integer.parseInt(this.btnMatricola.getText());
     	
-    	String ris = model.cercaStudente(matricola);
+    	String studente[] = model.cercaStudente(matricola);
     	
-    	if(ris==null) {
+    	if(studente[0]==null) {
     		this.btnMatricola.setText("Matricolaa NON valida");
     	}
 
     	else {
     		
-    		String nome[] = ris.split(" ");
-    		this.btnNome.setText(nome[0]);
-    		this.btnCognome.setText(nome[1]);
+    		
+    		this.btnNome.setText(studente[0]);
+    		this.btnCognome.setText(studente[1]);
     		
     	}
     	
