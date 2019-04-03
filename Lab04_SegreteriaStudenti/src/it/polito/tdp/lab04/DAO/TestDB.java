@@ -14,6 +14,7 @@ public class TestDB {
 		StudenteDAO sdao = new StudenteDAO();
 		sdao.getStudente(161245);
 		
+		
 	}
 
 }

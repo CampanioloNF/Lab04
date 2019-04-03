@@ -16,9 +16,6 @@ public class StudenteDAO {
 	public Studente getStudente(int cerco) {
 
 		 
-		  
-		  
-		 
 		  final String sql = "SELECT * FROM studente WHERE matricola = ? ";
 
 		try {
@@ -37,6 +34,10 @@ public class StudenteDAO {
 				String cds = rs.getString("CDS");
 
 				// Crea un nuovo JAVA Bean Studente
+				
+				//if(cds == null )
+				//	cds="";
+				
 				Studente s = new Studente(matricola, cognome, nome, cds);
 				System.out.println(matricola+" "+nome+" "+cognome+" "+cds );
 				conn.close();
@@ -55,5 +56,7 @@ public class StudenteDAO {
 		}
 		
 	}
+
+	
 	
 }

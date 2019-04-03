@@ -89,7 +89,7 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="45.0" prefWidth="290.0">
                      <children>
-                        <Button fx:id="btnIscrivi" mnemonicParsing="false" onAction="#doIscrivi" text="Iscrivi">
+                        <Button fx:id="btnIscrivi" disable="true" mnemonicParsing="false" onAction="#doIscrivi" text="Iscrivi">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
