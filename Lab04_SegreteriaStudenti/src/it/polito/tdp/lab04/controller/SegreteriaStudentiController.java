@@ -94,23 +94,26 @@ public class SegreteriaStudentiController {
     	
     	String stringa = this.btnCorsi.getValue();
     	
-        try {
+       
+    	int matr;
+    
+    	try {
     	
     	this.doNome(event);
+    	matr = Integer.parseInt(this.btnMatricola.getText());
     	
         }catch(NumberFormatException nfe) {
         	this.btnMatricola.setText("Matricola NON valida");
+        	return;
         }
     	
-        String matr = this.btnMatricola.getText();
-        
-        if(matr.equals("Matricolaa NON valida"))
-        	return;
-    	
+       
 
-    	if(stringa==null || stringa.trim().equals("")) {
-        
-        Set <Corso> corsi = model.cercaCorsi(Integer.parseInt(this.btnMatricola.getText().trim()));
+    	if(stringa==null || stringa.trim().equals("")) { 
+    			
+    		
+        Set <Corso> corsi = model.cercaCorsi(matr);
+      
 
         if(corsi.isEmpty()) {
     		this.btnResult.setText("Mi dispiace, questo studente non risulta iscritto a nessun corso!");
@@ -123,6 +126,7 @@ public class SegreteriaStudentiController {
         }
       }
     
+    		
     	else {
     		
     		String elenco[] = stringa.split("   ");
@@ -231,7 +235,7 @@ public class SegreteriaStudentiController {
     	String studente[] = model.cercaStudente(matricola);
     	
     	if(studente[0]==null) {
-    		this.btnMatricola.setText("Matricolaa NON valida");
+    		this.btnMatricola.setText("Matricola NON valida");
     		return;
     	}		
     		
