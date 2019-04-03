@@ -34,13 +34,14 @@ public class Model {
 		
 		String studente[] = {null,null};
 		
-		for(Studente s : dao.getStudenti()) {
-			if(s.getMatricola()==matricola) {
-				studente[0]=s.getNome();
-				studente[1]=s.getCognome();
-			}
-				
+		Studente s = dao.getStudente(matricola);
+		
+		if(s!=null) {
+			
+			studente[0] = s.getNome();
+			studente[1] = s.getCognome();
 		}
+			
 	
 		return studente;
 	}

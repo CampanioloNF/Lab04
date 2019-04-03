@@ -12,7 +12,8 @@ public class TestDB {
 		cdao.getTuttiICorsi();
 
 		StudenteDAO sdao = new StudenteDAO();
-		sdao.getStudenti();
+		sdao.getStudente(161245);
+		
 	}
 
 }

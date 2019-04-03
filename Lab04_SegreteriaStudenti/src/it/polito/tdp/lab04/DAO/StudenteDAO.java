@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+
 
 import it.polito.tdp.lab04.model.Studente;
 
@@ -14,19 +13,20 @@ public class StudenteDAO {
 	/*
 	 *Ottengo lo studente cercato
 	 * */
-	public Set<Studente> getStudenti() {
+	public Studente getStudente(int cerco) {
 
 		 
 		  
-		  Set <Studente> studenti = new HashSet <Studente>();
+		  
 		 
-		  final String sql = "SELECT * FROM studente";
+		  final String sql = "SELECT * FROM studente WHERE matricola = ? ";
 
 		try {
 		 
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
-
+            st.setInt(1, cerco);
+            
 			ResultSet rs = st.executeQuery();
 			
 			while (rs.next()) {
@@ -38,13 +38,14 @@ public class StudenteDAO {
 
 				// Crea un nuovo JAVA Bean Studente
 				Studente s = new Studente(matricola, cognome, nome, cds);
-                // Lo aggiungo al set
-				studenti.add(s);
+				System.out.println(matricola+" "+nome+" "+cognome+" "+cds );
+				conn.close();
+				return s;
+				
 			}
 			
 				conn.close();
-				
-				return studenti;
+				return null;
 				
 				
 		} catch (SQLException e) {

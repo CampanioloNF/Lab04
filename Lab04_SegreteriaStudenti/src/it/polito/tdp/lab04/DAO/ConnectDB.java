@@ -12,9 +12,8 @@ public class ConnectDB {
 	public static Connection getConnection() {
 
 		try {
-			if (connection == null) {
-				connection = DriverManager.getConnection(jdbcUrl);
-			}
+			
+		    connection = DriverManager.getConnection(jdbcUrl);
 			return connection;
 
 		} catch (SQLException e) {
