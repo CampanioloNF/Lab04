@@ -32,16 +32,16 @@ public class SegreteriaStudentiController {
     private Button btnCercaIscrittiCorso;
 
     @FXML
-    private TextField btnMatricola;
+    private TextField txtMatricola;
 
     @FXML
     private Button btnCompleta;
 
     @FXML
-    private TextField btnNome;
+    private TextField txtNome;
 
     @FXML
-    private TextField btnCognome;
+    private TextField txtCognome;
 
     @FXML
     private Button btnCercaCorsi;
@@ -50,7 +50,7 @@ public class SegreteriaStudentiController {
     private Button btnIscrivi;
 
     @FXML
-    private TextArea btnResult;
+    private TextArea txtResult;
 
     @FXML
     private Button btnReset;
@@ -59,6 +59,7 @@ public class SegreteriaStudentiController {
 
 	ObservableList<String> comboItems;
 	
+		
 	/**
 	 * Questo metodo servce a caricare 
 	 * il Box Choice
@@ -68,6 +69,43 @@ public class SegreteriaStudentiController {
 	this.btnCorsi.setItems(comboItems);
 	
 		}
+	
+	/**
+	 * effettua il controllo sulla matricola inserita in input
+	 * @return un array avente, rispettimente, nome e cognome o, in caso di errore un array avente come valori solo {@code null} 
+	 */
+	public String[] controlloMatricola() {
+		
+		String studente[] = {null,null};
+		
+	 	try {
+    	
+    	studente = model.cercaStudente(Integer.parseInt(this.txtMatricola.getText().trim()));
+    	
+    	if(studente[0]==null) {
+    		this.txtMatricola.setText("Matricola NON valida");
+    		return studente;
+    	}
+		
+
+    	}catch(NumberFormatException nfe) {
+    		this.txtMatricola.setText("Matricola NON valida");
+    		return studente;
+    	}
+		
+		return studente;
+		
+	}
+	
+	/**
+	 * Pulisce la schermata e setta il bottone iscrivi per evitare 
+	 * di iscrivere erroneamente studenti
+	 */
+	public void setButton() {
+		
+		this.btnIscrivi.setDisable(true);
+    	this.txtResult.clear();
+	}
 	
 	/**
 	 * 
@@ -88,40 +126,25 @@ public class SegreteriaStudentiController {
     @FXML
     void doCercaCorsi(ActionEvent event) {
     	
-    	this.btnIscrivi.setDisable(true);
+    	this.setButton();
     	
-    	this.btnResult.clear();
+    	if(this.controlloMatricola()[0] != null) {
     	
     	String stringa = this.btnCorsi.getValue();
-    	
-       
-    	int matr;
-    
-    	try {
-    	
-    	this.doNome(event);
-    	matr = Integer.parseInt(this.btnMatricola.getText());
-    	
-        }catch(NumberFormatException nfe) {
-        	this.btnMatricola.setText("Matricola NON valida");
-        	return;
-        }
-    	
-       
 
     	if(stringa==null || stringa.trim().equals("")) { 
     			
     		
-        Set <Corso> corsi = model.cercaCorsi(matr);
+        Set <Corso> corsi = model.cercaCorsi(Integer.parseInt(this.txtMatricola.getText()));
       
 
         if(corsi.isEmpty()) {
-    		this.btnResult.setText("Mi dispiace, questo studente non risulta iscritto a nessun corso!");
+    		this.txtResult.setText("Mi dispiace, questo studente non risulta iscritto a nessun corso!");
     	    return;
         }
         
         for(Corso corso : corsi) {
-        	this.btnResult.appendText(corso.getCodins()+"   "+corso.getCrediti()
+        	this.txtResult.appendText(corso.getCodins()+"   "+corso.getCrediti()
         	     +"    "+corso.getNome()+"    "+corso.getPd()+"\n");
         }
       }
@@ -131,21 +154,23 @@ public class SegreteriaStudentiController {
     		
     		String elenco[] = stringa.split("   ");
     		
-    		boolean result = model.cercaCorso(Integer.parseInt(this.btnMatricola.getText().trim()), elenco[1].trim());
+    		boolean result = model.cercaCorso(Integer.parseInt(this.txtMatricola.getText().trim()), elenco[1].trim());
     		
     		if(result) {
-    			this.btnResult.setText("Lo studente risulta essere iscritto al corso selezionato.");
+    			this.txtResult.setText("Lo studente risulta essere iscritto al corso selezionato.");
     		}
     		else {
-    			this.btnResult.setText("Lo studente NON risulta essere iscritto al corso selezionato.\n"
+    			this.txtResult.setText("Lo studente NON risulta essere iscritto al corso selezionato.\n"
     					+ "Se si desidera iscrivere lo studente, premere il tasto Iscrivi, altrimenti si prema il tasto Reset");
     			
     			this.btnIscrivi.setDisable(false);
     			this.btnCorsi.setDisable(true);
     			this.btnCercaIscrittiCorso.setDisable(true);
-    			this.btnMatricola.setEditable(false);
+    			this.txtMatricola.setEditable(false);
     			
     		}
+    	
+    	  }	
     	}
     }
    
@@ -159,15 +184,15 @@ public class SegreteriaStudentiController {
     @FXML
     void doCercaIscrittiCorso(ActionEvent event) {
 
-    	this.btnResult.clear();
-    	this.btnIscrivi.setDisable(true);
+
+    	this.setButton();
     	
     	String s = this.btnCorsi.getValue();
     	
     	//
     	
     	if(s==null || s.trim().equals("")) {
-    		this.btnResult.setText("ERRORE, si prega di inserire un corso");
+    		this.txtResult.setText("ERRORE, si prega di inserire un corso");
     	    return;
     	}
     	
@@ -176,11 +201,11 @@ public class SegreteriaStudentiController {
     	Set <Studente> studenti = model.getIscrittiCorso(elenco[1].trim());
     	
     	if(studenti.isEmpty()) {
-    		this.btnResult.setText("Non ci sono studenti iscritti a questo corso");
+    		this.txtResult.setText("Non ci sono studenti iscritti a questo corso");
     	    return;
     	}
     	for(Studente st: studenti) {
-    		this.btnResult.appendText(st.getMatricola()+"   "+
+    		this.txtResult.appendText(st.getMatricola()+"   "+
     	                 st.getNome()+"   "+st.getCognome()+"   "+st.getCds()+"\n");
     	}
     	
@@ -198,21 +223,21 @@ public class SegreteriaStudentiController {
     @FXML
     void doIscrivi(ActionEvent event) {
 
-    	this.btnIscrivi.setDisable(true);
+    	this.setButton();
     	
         String stringa  = this.btnCorsi.getValue();
         String elenco[] = stringa.split("   ");
         
-        int matricola = Integer.parseInt(this.btnMatricola.getText().trim());
+        int matricola = Integer.parseInt(this.txtMatricola.getText().trim());
     	
         boolean result = model.iscriviStudente(matricola, elenco[1]);
         
         if(result) {
-        	this.btnResult.setText("Operazione riuscita con successo! Lo studente fa ora parte del corso.\n"
+        	this.txtResult.setText("Operazione riuscita con successo! Lo studente fa ora parte del corso.\n"
         			+ "Si prega di premere il pulsante Reset per una nuova operazione.");
         }
         else {
-        	this.btnResult.setText("Operazione NON riuscita! Sono stati riscontrati dei problemi riguardo i dati o la connessione rispetto a questi.\n"
+        	this.txtResult.setText("Operazione NON riuscita! Sono stati riscontrati dei problemi riguardo i dati o la connessione rispetto a questi.\n"
         			+ "Si prega di premere il pulsante Reset per una nuova operazione.");
         }
         
@@ -228,24 +253,13 @@ public class SegreteriaStudentiController {
     void doNome(ActionEvent event) {
     	
 
-    	try {
+    	String studente[] = this.controlloMatricola();
     	
-    	int matricola = Integer.parseInt(this.btnMatricola.getText().trim());
+    	if(studente[0]!=null) {
     	
-    	String studente[] = model.cercaStudente(matricola);
+    	this.txtNome.setText(studente[0]);
+        this.txtCognome.setText(studente[1]);
     	
-    	if(studente[0]==null) {
-    		this.btnMatricola.setText("Matricola NON valida");
-    		return;
-    	}		
-    		
-    		this.btnNome.setText(studente[0]);
-    		this.btnCognome.setText(studente[1]);
-    		
-    	
-    	
-    	}catch(NumberFormatException nfe) {
-    		this.btnMatricola.setText("Matricola NON valida");
     	}
     	
     }
@@ -258,16 +272,16 @@ public class SegreteriaStudentiController {
     @FXML
     void doReset(ActionEvent event) {
 
-    	this.btnResult.clear();
-    	this.btnCognome.clear();
-    	this.btnNome.clear();
-    	this.btnMatricola.clear();
+    	this.txtResult.clear();
+    	this.txtCognome.clear();
+    	this.txtNome.clear();
+    	this.txtMatricola.clear();
     	
     	this.btnIscrivi.setDisable(true);
     	
     	this.btnCorsi.setDisable(false);
 		this.btnCercaIscrittiCorso.setDisable(false);
-		this.btnMatricola.setEditable(true);
+		this.txtMatricola.setEditable(true);
     	
     }
 
@@ -276,13 +290,13 @@ public class SegreteriaStudentiController {
     	 
     	assert btnCorsi != null : "fx:id=\"btnCorsi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
          assert btnCercaIscrittiCorso != null : "fx:id=\"btnCercaIscrittiCorso\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
-         assert btnMatricola != null : "fx:id=\"btnMatricola\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+         assert txtMatricola != null : "fx:id=\"btnMatricola\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
          assert btnCompleta != null : "fx:id=\"btnCompleta\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
-         assert btnNome != null : "fx:id=\"btnNome\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
-         assert btnCognome != null : "fx:id=\"btnCognome\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+         assert txtNome != null : "fx:id=\"btnNome\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+         assert txtCognome != null : "fx:id=\"btnCognome\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
          assert btnCercaCorsi != null : "fx:id=\"btnCercaCorsi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
          assert btnIscrivi != null : "fx:id=\"btnIscrivi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
-         assert btnResult != null : "fx:id=\"btnResult\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+         assert txtResult != null : "fx:id=\"btnResult\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
          assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 
          //this.btnCorsi.setItems(comboItems);
