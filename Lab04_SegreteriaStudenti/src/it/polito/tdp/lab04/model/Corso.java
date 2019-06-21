@@ -72,6 +72,8 @@ public class Corso {
 		return pd;
 	}
 	
-	
+	public String toString() {
+		return this.nome;
+	}
 	
 }

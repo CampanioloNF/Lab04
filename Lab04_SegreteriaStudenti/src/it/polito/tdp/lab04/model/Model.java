@@ -20,21 +20,21 @@ public class Model {
 	 * <nomeCorso> tree space <codins>.
 	 */
 	
-	public List <String> getCorsi() {
+	public List <Corso> getCorsi() {
 		
 		CorsoDAO dao = new CorsoDAO();
 		
 		List<Corso> corsi = dao.getTuttiICorsi();
 		
-		List<String> result = new LinkedList<String>();
+	    List<String> result = new LinkedList<String>();
 		
 		for(Corso c : corsi) {
 			result.add(c.getNome()+"   "+c.getCodins());
 		    mappaCorsi.put(c.getCodins(), c);
 		}
-		result.add("");
 		
-		return result;
+		
+		return corsi;
 	}
 
 	/**
@@ -47,22 +47,13 @@ public class Model {
 	 * nome e cognome.
 	 */
 	
-	public String [] cercaStudente(int matricola) {
+	public Studente cercaStudente(int matricola) {
 	
 		StudenteDAO dao = new StudenteDAO();
 		
-		String studente[] = {null,null};
-		
 		Studente s = dao.getStudente(matricola);
-		
-		if(s!=null) {
-			
-			studente[0] = s.getNome();
-			studente[1] = s.getCognome();
-		}
-			
 	
-		return studente;
+		return s;
 	}
 	
 	/**

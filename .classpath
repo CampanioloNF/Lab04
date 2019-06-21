@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Lab04_SegreteriaStudenti/src"/>
+	<classpathentry kind="src" path="Lab04/Lab04_SegreteriaStudenti/src"/>
+	<classpathentry kind="lib" path="Lab04_SegreteriaStudenti/lib/mysql-connector-java-5.1.29-bin.jar"/>
+	<classpathentry kind="lib" path="Lab04/Lab04_SegreteriaStudenti/lib/mysql-connector-java-5.1.29-bin.jar"/>
+	<classpathentry kind="output" path="Lab04_SegreteriaStudenti/bin"/>
+</classpath>

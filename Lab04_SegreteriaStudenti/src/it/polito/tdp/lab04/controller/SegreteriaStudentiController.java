@@ -26,7 +26,7 @@ public class SegreteriaStudentiController {
     private URL location;
 
     @FXML
-    private ChoiceBox <String> btnCorsi;
+    private ChoiceBox <Corso> btnCorsi;
 
     @FXML
     private Button btnCercaIscrittiCorso;
@@ -57,7 +57,7 @@ public class SegreteriaStudentiController {
 
 	private Model model;
 
-	ObservableList<String> comboItems;
+	ObservableList<Corso> comboItems;
 	
 		
 	/**
@@ -74,15 +74,15 @@ public class SegreteriaStudentiController {
 	 * effettua il controllo sulla matricola inserita in input
 	 * @return un array avente, rispettimente, nome e cognome o, in caso di errore un array avente come valori solo {@code null} 
 	 */
-	public String[] controlloMatricola() {
+	public Studente controlloMatricola() {
 		
-		String studente[] = {null,null};
+		Studente studente = null;
 		
 	 	try {
     	
     	studente = model.cercaStudente(Integer.parseInt(this.txtMatricola.getText().trim()));
     	
-    	if(studente[0]==null) {
+    	if(studente==null) {
     		this.txtMatricola.setText("Matricola NON valida");
     		return studente;
     	}
@@ -128,11 +128,11 @@ public class SegreteriaStudentiController {
     	
     	this.setButton();
     	
-    	if(this.controlloMatricola()[0] != null) {
+    	if(this.controlloMatricola() != null) {
     	
-    	String stringa = this.btnCorsi.getValue();
+    	Corso questoCorso = this.btnCorsi.getValue();
 
-    	if(stringa==null || stringa.trim().equals("")) { 
+    	if(questoCorso==null) { 
     			
     		
         Set <Corso> corsi = model.cercaCorsi(Integer.parseInt(this.txtMatricola.getText()));
@@ -152,9 +152,8 @@ public class SegreteriaStudentiController {
     		
     	else {
     		
-    		String elenco[] = stringa.split("   ");
     		
-    		boolean result = model.cercaCorso(Integer.parseInt(this.txtMatricola.getText().trim()), elenco[1].trim());
+    		boolean result = model.cercaCorso(Integer.parseInt(this.txtMatricola.getText().trim()), questoCorso.getCodins());
     		
     		if(result) {
     			this.txtResult.setText("Lo studente risulta essere iscritto al corso selezionato.");
@@ -187,18 +186,18 @@ public class SegreteriaStudentiController {
 
     	this.setButton();
     	
-    	String s = this.btnCorsi.getValue();
+    	Corso corso = this.btnCorsi.getValue();
     	
     	//
     	
-    	if(s==null || s.trim().equals("")) {
+    	if(corso == null ) {
     		this.txtResult.setText("ERRORE, si prega di inserire un corso");
     	    return;
     	}
     	
-    	String elenco[] = s.split("   ");
     	
-    	Set <Studente> studenti = model.getIscrittiCorso(elenco[1].trim());
+    	
+    	Set <Studente> studenti = model.getIscrittiCorso(corso.getCodins());
     	
     	if(studenti.isEmpty()) {
     		this.txtResult.setText("Non ci sono studenti iscritti a questo corso");
@@ -225,12 +224,12 @@ public class SegreteriaStudentiController {
 
     	this.setButton();
     	
-        String stringa  = this.btnCorsi.getValue();
-        String elenco[] = stringa.split("   ");
+        Corso corso  = this.btnCorsi.getValue();
+        
         
         int matricola = Integer.parseInt(this.txtMatricola.getText().trim());
     	
-        boolean result = model.iscriviStudente(matricola, elenco[1]);
+        boolean result = model.iscriviStudente(matricola, corso.getCodins());
         
         if(result) {
         	this.txtResult.setText("Operazione riuscita con successo! Lo studente fa ora parte del corso.\n"
@@ -253,12 +252,12 @@ public class SegreteriaStudentiController {
     void doNome(ActionEvent event) {
     	
 
-    	String studente[] = this.controlloMatricola();
+    	Studente studente = this.controlloMatricola();
     	
-    	if(studente[0]!=null) {
+    	if(studente!=null) {
     	
-    	this.txtNome.setText(studente[0]);
-        this.txtCognome.setText(studente[1]);
+    	this.txtNome.setText(studente.getNome());
+        this.txtCognome.setText(studente.getCognome());
     	
     	}
     	
